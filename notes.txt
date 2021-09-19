@@ -1,0 +1,16 @@
+- sam build --use-container
+
+- sam local invoke
+Error: You must provide a function logical ID when there are more than one functions in your template. Possible options in your template: ['HelloWorldFunction', 'ByeWorldFunction']
+
+- sam deploy --guided
+
+        HelloWorldFunction may not have authorization defined, Is this okay? [y/N]: y
+        ByeWorldFunction may not have authorization defined, Is this okay? [y/N]: 
+
+- sam local start-lambda
+
+- tests:
+
+-> aws lambda invoke --function-name "GetCountFunction" --endpoint-url "http://127.0.0.1:3001" --no-verify-ssl out.txt
+-> aws lambda invoke --function-name "UpdateCountFunction" --endpoint-url "http://127.0.0.1:3001" --no-verify-ssl out.txt

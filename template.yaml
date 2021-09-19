@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  cloud-resume-sam
+
+  Sample SAM Template for cloud-resume-sam
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  GetCountFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: get-api-files/
+      Policies:
+      # Give DynamoDB Full Access to your Lambda Function
+      - AmazonDynamoDBFullAccess
+      Timeout: 10
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /resume-challenge
+            Method: get
+  UpdateCountFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: post-api-files/
+      Policies:
+      # Give DynamoDB Full Access to your Lambda Function
+      - AmazonDynamoDBFullAccess
+      Timeout: 10
+      Handler: app.lambda_handler
+      Runtime: python3.6
+      Events:
+        ByeWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /resume-challenge
+            Method: post
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  GetCountFunctionApi:
+    Description: "API Gateway endpoint URL for Prod stage for Get Count function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/resume-challenge/"
+  GetCountFunction:
+    Description: "Get Count Lambda Function ARN"
+    Value: !GetAtt GetCountFunction.Arn
+  GetCountFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Count function"
+    Value: !GetAtt GetCountFunction.Arn
+  UpdateCountApi:
+    Description: "API Gateway endpoint URL for Prod stage for update Count function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/resume-challenge/"
+  UpdateCountFunction:
+    Description: "Update Count Lambda Function ARN"
+    Value: !GetAtt UpdateCountFunction.Arn
+  UpdateCountFunctionIamRole:
+    Description: "Implicit IAM Role created for Update Count function"
+    Value: !GetAtt UpdateCountFunction.Arn
