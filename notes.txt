@@ -14,3 +14,5 @@ Error: You must provide a function logical ID when there are more than one funct
 
 -> aws lambda invoke --function-name "GetCountFunction" --endpoint-url "http://127.0.0.1:3001" --no-verify-ssl out.txt
 -> aws lambda invoke --function-name "UpdateCountFunction" --endpoint-url "http://127.0.0.1:3001" --no-verify-ssl out.txt
+
+#1
